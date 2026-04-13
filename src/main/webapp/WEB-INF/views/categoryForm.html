@@ -1,8 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카테고리 등록 - Category Management</title>
+    <style>
+        body { font-family: 'Malgun Gothic', Arial, sans-serif; max-width: 500px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { border-bottom: 2px solid #4a90d9; padding-bottom: 10px; color: #2c3e50; }
+        .back-btn { display: inline-block; padding: 8px 16px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px; margin-bottom: 24px; }
+        .back-btn:hover { background: #545b62; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 6px; color: #495057; }
+        input[type="text"] { width: 100%; padding: 10px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 1em; box-sizing: border-box; font-family: inherit; }
+        input[type="text"]:focus { outline: none; border-color: #4a90d9; box-shadow: 0 0 0 3px rgba(74,144,217,0.15); }
+        .error-msg { color: #e74c3c; font-size: 0.85em; margin-top: 5px; display: block; }
+        .btn-submit { background: #4a90d9; color: white; border: none; padding: 12px 32px; font-size: 1em; border-radius: 4px; cursor: pointer; }
+        .btn-submit:hover { background: #357abd; }
+    </style>
 </head>
 <body>
 
@@ -10,13 +24,22 @@
     <p th:text="${'실습 수행 일시 : ' + #temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 (E) a hh:mm:ss') + ' | 학번 : 2271122 | 성명 : 이준석'}"></p>
 </header>
 
+<h1>카테고리 등록</h1>
+<a class="back-btn" th:href="@{/categories}">← 목록으로 돌아가기</a>
+
 <!-- categoryForm.html : th:object + th:field + th:errors 패턴 -->
 <form th:action="@{/categories/create}" th:object="${categories}" method="post">
-  <!-- th:field가 name, id, value를 자동 설정 -->
-  <input type="text" th:field="*{name}" placeholder="카테고리 이름"/>
-  <!-- th:errors: BindingResult 오류(중복/공백) 메시지 자동 표시 -->
-  <span th:errors="*{name}" style="color:red"></span>
-  <button type="submit">등록</button>
+  <div class="form-group">
+    <label for="name">카테고리 이름</label>
+    <!-- th:field가 name, id, value를 자동 설정 -->
+    <input type="text" th:field="*{name}" placeholder="카테고리 이름"/>
+    <!-- th:errors: BindingResult 오류(중복/공백) 메시지 자동 표시 -->
+    <span class="error-msg" th:errors="*{name}"></span>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn-submit">등록</button>
+  </div>
+</form>
 
 </body>
 </html>
