@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import kr.ac.hansung.cse.exception.ProductNotFoundException;
 import kr.ac.hansung.cse.model.Product;
 import kr.ac.hansung.cse.model.ProductForm;
+import kr.ac.hansung.cse.service.CategoryService;
 import kr.ac.hansung.cse.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,20 +38,46 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final CategoryService categoryService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
+        this.categoryService = categoryService;
     }
-
 
     // ─────────────────────────────────────────────────────────────────
     // GET /products - 상품 목록 조회
     // ─────────────────────────────────────────────────────────────────
 
     @GetMapping
-    public String listProducts(Model model) {
-        List<Product> products = productService.getAllProducts();
+    public String listProducts(
+            // http://localhost:8080/products?keyword={ }&categoryId={ }
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Long categoryId,
+            Model model
+    ) {
+        List<Product> products;
+
+        // search by keyword
+        if(keyword != null &&
+            keyword.isBlank()
+        ) {
+            products = productService.searchByName(keyword);
+        } else if(categoryId != null) {
+
+            // search by category
+            products = productService.searchByCategory(categoryId);
+        } else {
+
+            // both keyword and categoryId are not provided
+            products = productService.getAllProducts();
+        }
+
+        // drop-down category + current filter
+        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("keyword", keyword);
         model.addAttribute("products", products);
+
         return "productList";
     }
 
