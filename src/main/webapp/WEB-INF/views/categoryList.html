@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko_KR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카테고리 목록 - Category Management</title>
+</head>
+<body>
+  <header>
+    <p th:text="${'실습 수행 일시 : ' + #temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 (E) a hh:mm:ss') + ' | 학번 : 2271122 | 성명 : 이준석'}"></p>
+  </header>
+  <!-- categoryList.html : 성공/오류 Flash 메시지 표시 -->
+  <p th:if="${successMessage}" th:text="${successMessage}"></p>
+  <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+
+  <!-- th:each로 목록 반복, 삭제는 POST 폼으로 처리 -->
+  <tr th:each="cat : ${categories}">
+    <td th:text="${cat.id}"></td>
+    <td th:text="${cat.name}"></td>
+    <td>
+      <!-- th:action에서 경로 변수 (id=${cat.id}) 바인딩 방법 -->
+      <form th:action="@{/categories/{id}/delete(id=${cat.id})}" method="post">
+        <button type="submit">삭제</button>
+      </form>
+    </td>
+  </tr>
+</body>
+</html>

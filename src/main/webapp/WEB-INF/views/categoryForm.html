@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<header>
+    <p th:text="${'실습 수행 일시 : ' + #temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 (E) a hh:mm:ss') + ' | 학번 : 2271122 | 성명 : 이준석'}"></p>
+</header>
+
+<!-- categoryForm.html : th:object + th:field + th:errors 패턴 -->
+<form th:action="@{/categories/create}" th:object="${categories}" method="post">
+  <!-- th:field가 name, id, value를 자동 설정 -->
+  <input type="text" th:field="*{name}" placeholder="카테고리 이름"/>
+  <!-- th:errors: BindingResult 오류(중복/공백) 메시지 자동 표시 -->
+  <span th:errors="*{name}" style="color:red"></span>
+  <button type="submit">등록</button>
+
+</body>
+</html>
