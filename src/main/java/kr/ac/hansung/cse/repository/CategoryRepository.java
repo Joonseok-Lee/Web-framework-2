@@ -47,6 +47,14 @@ public class CategoryRepository {
         return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
     }
 
+    // 삭제 전 연결 상품 수 확인 (COUNT 쿼리)
+    public long countProductsByCategoryId(Long categoryId) {
+        return em.createQuery(
+                        "SELECT COUNT(p) FROM Product p WHERE p.category.id = :id",
+                        Long.class)
+                .setParameter("id", categoryId).getSingleResult();
+    }
+
     // delete record
     public void delete(Long id) {
         Category category = em.find(Category.class, id);
@@ -55,5 +63,6 @@ public class CategoryRepository {
             em.remove(category);
         }
     }
+
 }
 
