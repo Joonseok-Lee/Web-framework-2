@@ -46,5 +46,14 @@ public class CategoryRepository {
                 .getResultList();
         return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
     }
+
+    // delete record
+    public void delete(Long id) {
+        Category category = em.find(Category.class, id);
+
+        if(category != null) {
+            em.remove(category);
+        }
+    }
 }
 
