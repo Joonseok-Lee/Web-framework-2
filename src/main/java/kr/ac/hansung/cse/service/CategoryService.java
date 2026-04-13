@@ -1,6 +1,5 @@
 package kr.ac.hansung.cse.service;
 
-import kr.ac.hansung.cse.exception.CategoryHaveRelationException;
 import kr.ac.hansung.cse.model.Category;
 import kr.ac.hansung.cse.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +40,11 @@ public class CategoryService {
     @Transactional  // persist entity
     public void deleteCategory(Long id) {
 
-        Category found = categoryRepository.findById(id).
-                orElseThrow(IllegalArgumentException::new);
+       long count = categoryRepository.countProductsByCategoryId(id);
 
-        // if category have relation, throw Custom Exception
-        if(!found.getProducts().isEmpty()) {
-            throw new CategoryHaveRelationException(id);
-        }
+       if(count > 0)
+           throw new IllegalArgumentException("상품 " + count + "개가 연결되어 있어 삭제할 수 없습니다.");
 
-        categoryRepository.delete(id);
+       categoryRepository.delete(id);
     }
 }
