@@ -60,7 +60,7 @@ public class ProductController {
 
         // search by keyword
         if(keyword != null &&
-            keyword.isBlank()
+            !keyword.isBlank()
         ) {
             products = productService.searchByName(keyword);
         } else if(categoryId != null) {
