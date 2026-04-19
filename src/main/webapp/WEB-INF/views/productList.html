@@ -56,10 +56,6 @@
 
     <a class="btn" th:href="@{/products/create}">+ 새 상품 등록</a>
 
-    <div class="empty-msg" th:if="${#lists.isEmpty(products)}">
-        등록된 상품이 없습니다. 새 상품을 등록해 주세요.
-    </div>
-
     <!-- 검색 폼: form method="get" → URL 파라미터로 전송 -->
     <form th:action="@{/products}" method="get">
         <!-- th:value로 검색 후에도 입력값이 유지됨 -->
