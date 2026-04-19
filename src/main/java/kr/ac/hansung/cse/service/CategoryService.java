@@ -29,7 +29,7 @@ public class CategoryService {
     public Category createCategory(Category category) {
 
         // validation
-        if(category.getName() == null) {
+        if(category.getName().isBlank()) {
             throw new IllegalArgumentException("카테고리 이름은 필수값입니다.");
         }
 

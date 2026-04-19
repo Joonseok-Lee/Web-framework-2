@@ -39,7 +39,7 @@ public class CategoryController {
 
     @PostMapping("/create")
     public String createCategory(
-            @Valid @ModelAttribute CategoryForm categoryForm,
+            @Valid @ModelAttribute("categories") CategoryForm categoryForm,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes
     ) {
