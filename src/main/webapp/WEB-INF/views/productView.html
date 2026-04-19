@@ -32,6 +32,10 @@
 </head>
 <body>
 
+<header>
+    <p th:text="${'실습 수행 일시 : ' + #temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 (E) a hh:mm:ss') + ' | 학번 : 2271122 | 성명 : 이준석'}"></p>
+</header>
+
     <h1>상품 상세 정보</h1>
 
     <a class="back-btn" th:href="@{/products}">← 목록으로 돌아가기</a>
