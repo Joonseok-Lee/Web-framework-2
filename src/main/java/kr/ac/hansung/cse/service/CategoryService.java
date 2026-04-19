@@ -1,5 +1,6 @@
 package kr.ac.hansung.cse.service;
 
+import kr.ac.hansung.cse.exception.DuplicateCategoryException;
 import kr.ac.hansung.cse.model.Category;
 import kr.ac.hansung.cse.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -31,6 +33,14 @@ public class CategoryService {
         // validation
         if(category.getName().isBlank()) {
             throw new IllegalArgumentException("카테고리 이름은 필수값입니다.");
+        }
+
+        Optional<Category> found = categoryRepository.findByName(category.getName());
+
+        if(found.isPresent()) {
+            if(found.get().getName().equals(category.getName())) {
+                throw new DuplicateCategoryException(category.getName() + "은 이미 생성된 카테고리입니다.");
+            }
         }
 
         return categoryRepository.save(category);
