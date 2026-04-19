@@ -76,6 +76,7 @@ public class ProductController {
         // drop-down category + current filter
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("keyword", keyword);
+        model.addAttribute("categoryId", categoryId);
         model.addAttribute("products", products);
 
         return "productList";
